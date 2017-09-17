@@ -37,7 +37,8 @@ class Router
      * @param array|null $params
      * @return string|null
      */
-    public function generateUri(string $name, ?array $params = []): ?string {
+    public function generateUri(string $name, ?array $params = []): ?string
+    {
         return $this->router->generateUri($name, $params);
     }
 
@@ -49,7 +50,7 @@ class Router
     public function match(ServerRequestInterface $request): ?Route
     {
         $route = $this->router->match($request);
-        if($route->isFailure()) {
+        if ($route->isFailure()) {
             return null;
         }
         return new Route(

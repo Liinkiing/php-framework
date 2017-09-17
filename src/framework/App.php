@@ -37,13 +37,16 @@ class App
                 ->withHeader('Location', mb_substr($uri, 0, -1));
             return $response;
         }
-        if(!$matched = $this->router->match($request)) {
+        if (!$matched = $this->router->match($request)) {
             return new Response(404, $request->getHeaders(), '<h1>Erreur 404</h1>');
         } else {
             $response = call_user_func($matched->getCallback(), $request);
-            if($response instanceof ResponseInterface || is_string($response)) {
-                if(is_string($response)) return new Response(200, $request->getHeaders(), "<p>$response</p>");
-                else return $response;
+            if ($response instanceof ResponseInterface || is_string($response)) {
+                if (is_string($response)) {
+                    return new Response(200, $request->getHeaders(), "<p>$response</p>");
+                } else {
+                    return $response;
+                }
             } else {
                 throw new BadResponseType();
             }
