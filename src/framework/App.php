@@ -2,12 +2,31 @@
 
 namespace Framework;
 
+use Framework\Exceptions\BadResponseType;
+use Framework\Router\Router;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class App
 {
+
+    private $modules;
+
+    private $router;
+
+    /**
+     * App constructor.
+     * @param string[] $modules
+     */
+    public function __construct(array $modules)
+    {
+        $this->router = new Router();
+        foreach ($modules as $module) {
+            $this->modules[] = new $module($this->router);
+        }
+    }
+
     public function run(ServerRequestInterface $request): ResponseInterface
     {
         $uri = $request->getUri()->getPath();
@@ -16,13 +35,18 @@ class App
             $response = $response
                 ->withStatus(301)
                 ->withHeader('Location', mb_substr($uri, 0, -1));
-
             return $response;
         }
-        if ('/blog' === $uri) {
-            return new Response(200, [], '<h1>Bienvenue sur le blog</h1>');
+        if(!$matched = $this->router->match($request)) {
+            return new Response(404, $request->getHeaders(), '<h1>Erreur 404</h1>');
+        } else {
+            $response = call_user_func($matched->getCallback(), $request);
+            if($response instanceof ResponseInterface || is_string($response)) {
+                if(is_string($response)) return new Response(200, $request->getHeaders(), "<p>$response</p>");
+                else return $response;
+            } else {
+                throw new BadResponseType();
+            }
         }
-
-        return new Response(404, [], '<h1>Erreur 404</h1>');
     }
 }
