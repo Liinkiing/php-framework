@@ -46,7 +46,7 @@ class AppTest extends TestCase
         ]);
         $request = new ServerRequest("GET", "/string");
         $response = $app->run($request);
-        $this->assertContains("<p>Je suis une chaîne de caractère</p>", (string) $response->getBody());
+        $this->assertContains("Je suis une chaîne de caractère", (string) $response->getBody());
     }
 
     public function test404Error()
@@ -57,4 +57,6 @@ class AppTest extends TestCase
         $this->assertContains('<h1>Erreur 404</h1>', (string) $response->getBody());
         $this->assertSame(404, $response->getStatusCode());
     }
+
+
 }

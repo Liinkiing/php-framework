@@ -40,10 +40,13 @@ class App
         if (!$matched = $this->router->match($request)) {
             return new Response(404, $request->getHeaders(), '<h1>Erreur 404</h1>');
         } else {
+            foreach ($matched->getParameters() as $key => $value) {
+                $request = $request->withAttribute($key, $value);
+            }
             $response = call_user_func($matched->getCallback(), $request);
             if ($response instanceof ResponseInterface || is_string($response)) {
                 if (is_string($response)) {
-                    return new Response(200, $request->getHeaders(), "<p>$response</p>");
+                    return new Response(200, $request->getHeaders(), "$response");
                 } else {
                     return $response;
                 }

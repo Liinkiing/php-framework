@@ -23,6 +23,6 @@ class BlogModule
 
     public function show(ServerRequestInterface $request)
     {
-        return "test";
+        return "Je suis l'article {$request->getAttribute('slug')}";
     }
 }
