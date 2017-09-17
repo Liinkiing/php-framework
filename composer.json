@@ -1,0 +1,23 @@
+{
+    "name": "linking/php-framework",
+    "description": "A PHP framework made from scratch, thanks to the Grafikart course Advanced POO",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Omar Jbara",
+            "email": "omar.jbara2@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/framework"
+        }
+    },
+    "require": {
+        "guzzlehttp/psr7": "^1.4",
+        "http-interop/response-sender": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3"
+    }
+}

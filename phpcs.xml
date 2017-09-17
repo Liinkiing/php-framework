@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ruleset name="Custom PHP Framework">
+    <description>Personal formatting rules</description>
+
+    <arg name="colors"/>
+    <arg value="p"/>
+
+    <file>src</file>
+    <file>public/index.php</file>
+
+    <rule ref="PSR2"></rule>
+</ruleset>
